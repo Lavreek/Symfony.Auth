@@ -4,6 +4,7 @@ namespace App\Service\Register;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class VerifyService
 {

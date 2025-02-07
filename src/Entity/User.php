@@ -4,40 +4,68 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
+/**
+ * Сущность стандартной регистрации пользователя.
+ */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /**
+     * Идентификатор пользователя.
+     * @var Uuid|null
+     */
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id;
 
+    /**
+     * Email адрес пользователя.
+     * @var string|null
+     */
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
     /**
-     * @var list<string> The user roles
+     * Роли пользователя.
+     * @var list<string>
      */
     #[ORM\Column]
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * Пароль пользователя (хэш).
+     * @var string
      */
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * Верификация пользователя.
+     * @var bool
+     */
     #[ORM\Column]
     private bool $isVerified = false;
 
-    public function getId(): ?int
+    /**
+     * Инициализация.
+     */
+    public function __construct()
+    {
+        $this->id = new Uuid(Uuid::v4()); // Быстрый доступ к идентификатору пользователя.
+    }
+
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

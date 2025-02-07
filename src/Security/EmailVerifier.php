@@ -10,6 +10,9 @@ use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
+/**
+ * Сервис верификации Email адреса пользователя.
+ */
 class EmailVerifier
 {
     public function __construct(
@@ -17,6 +20,17 @@ class EmailVerifier
         private MailerInterface $mailer,
         private EntityManagerInterface $entityManager
     ) {
+    }
+
+    public function verifyEmail(User $user)
+    {
+        $this->sendEmailConfirmation('app_verify_email', $user,
+            (new TemplatedEmail())
+                ->from(new Address('mailer@your-domain.com', 'Mail Bot'))
+                ->to((string) $user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
+        );
     }
 
     public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void

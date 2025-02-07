@@ -10,10 +10,26 @@ use Symfony\Component\Validator\Validation;
 
 abstract class RequestReceiveLibrary extends VariableReceiveLibrary
 {
+    private ?Request $request = null;
+
     public function __construct()
     {
         parent::__construct(...$this->getRequestArray());
         $this->validate();
+    }
+
+    public function getRequest(): ?Request
+    {
+        if ($this->request === null) {
+            $this->request = Request::createFromGlobals();
+        }
+
+        return $this->request;
+    }
+
+    public function getHeaders(): array
+    {
+        return $this->getRequest()->headers->all();
     }
 
     /**
@@ -57,10 +73,5 @@ abstract class RequestReceiveLibrary extends VariableReceiveLibrary
     private function getRequestArray(): array
     {
         return $this->getRequest()->toArray();
-    }
-
-    private function getRequest(): Request
-    {
-        return Request::createFromGlobals();
     }
 }

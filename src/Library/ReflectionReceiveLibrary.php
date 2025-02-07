@@ -3,12 +3,13 @@
 namespace App\Library;
 
 use ReflectionClass;
+use ReflectionException;
 use ReflectionProperty;
 
 class ReflectionReceiveLibrary
 {
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function getReflectionProperty(string $property): ReflectionProperty
     {

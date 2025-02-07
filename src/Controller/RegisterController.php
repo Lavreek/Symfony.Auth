@@ -6,23 +6,48 @@ use App\Request\RegisterRequest;
 use App\Security\EmailVerifier;
 use App\Service\RegisterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Контроллер для регистрации пользователя.
+ */
+#[Route('/register', name: 'app_register')]
 class RegisterController extends AbstractController
 {
+    /**
+     * Инициализация.
+     * @param RegisterService $registerService Сервис регистрации пользователей.
+     * @param EmailVerifier $emailVerifier Сервис верификации Email адреса пользователя.
+     */
     public function __construct(
         private readonly RegisterService $registerService,
         private readonly EmailVerifier $emailVerifier,
     )
     {
+        // ...
     }
 
-    #[Route('/register', name: 'app_register')]
-    public function register(RegisterRequest $request): Response // UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager
+    /**
+     * Создание пользователя.
+     * @param RegisterRequest $request Реквест необходимых параметров для регистрации пользователя.
+     * @return JsonResponse
+     */
+    #[Route('/create', name: 'app_register_create', methods: ['POST'])]
+    public function create(RegisterRequest $request): JsonResponse
     {
-        dd($request->toArray());
-//        $register = $this->registerService->getRegisterType($request->type);
-//        return new Response($this->renderView('register/register.html.twig'));
+        $register = $this->registerService->getRegisterType($request->type);
+        $user = $register->register($request->credentionals);
+
+        if ($request->credentionals->email !== null && $request->verify) {
+            $this->emailVerifier->verifyEmail($user);
+        }
+
+        return new JsonResponse(['success' => true,
+            'user' => [
+                'message' => 'Пользователь был создан.',
+                'id' => $user->getId()
+            ]
+        ]);
     }
 }

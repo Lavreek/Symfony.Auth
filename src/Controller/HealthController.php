@@ -8,11 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/service/health', name: '_health')]
+/**
+ * Контроллер проверки статуса системы.
+ */
+#[Route('/health', name: 'app_health')]
 class HealthController extends AbstractController
 {
-    #[Route('/health', name: 'app_auth_health')]
-    public function health(): JsonResponse
+    /**
+     * Получить информацию о жизни сервиса.
+     * @return JsonResponse
+     */
+    #[Route('/info', name: 'app_health_info', methods: ['GET'])]
+    public function info(): JsonResponse
     {
         return new JsonResponse([
             'status' => ResponseStatusEnum::SUCCESS->value,

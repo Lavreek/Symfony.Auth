@@ -2,22 +2,32 @@
 
 namespace App\Controller;
 
-use DateTime;
+use App\Request\LoginRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Контроллер авторизации пользователя.
+ */
 #[Route('/auth', name: 'app_auth')]
 class AuthController extends AbstractController
 {
-    #[Route('/get', name: 'app_auth_get')]
-    public function get(Request $request): JsonResponse
+    /**
+     * Произвести авторизацию пользователя.
+     * @param LoginRequest $request Реквест необходимых параметров для авторизации пользователя.
+     * @return JsonResponse
+     */
+    #[Route('/login', name: 'app_auth_login', methods: ['POST'])]
+    public function login(LoginRequest $request): JsonResponse
     {
-
-        return new JsonResponse([
-            $request->toArray()
+        return new JsonResponse(['success' => true,
+            'headers' => $request->getHeaders(),
+            'array' => $request->toArray(),
+            'user' => [
+                'id' => 1,
+                'message' => 'Авторизация успешна.'
+            ]
         ]);
     }
-
 }
