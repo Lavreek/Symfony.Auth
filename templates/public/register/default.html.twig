@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Регистрация пользователя{% endblock %}
+
+{% block body %}
+    <style>
+        .yourdwell-register-form {
+            width: 600px;
+            margin: auto;
+        }
+
+        .yourdwell-register-form > .form-container {
+            padding: 1em;
+        }
+
+        .form-container > .form-credential {
+            display: flex;
+            flex-direction: column;
+            row-gap: .5em;
+        }
+
+        .form-credential > .credential-input {
+            display: flex;
+            flex-direction: column;
+            row-gap: .25em;
+        }
+    </style>
+
+    <div class="yourdwell-register-form" data-controller="register">
+        <div class="form-container">
+            <h1 class="font-family text-size-xlg">Регистрация пользователя.</h1>
+
+            <div class="form-credential">
+                <input type="hidden" name="type" data-register-target="type" value="{{ registerType }}">
+                <div class="credential-input">
+                    <label for="input-username" class="font-family text-size-xmd">Email/Имя пользователя:</label>
+                    <input id="input-username" data-register-target="username" class="font-family text-size-xmd" value="test@test.ru">
+                </div>
+                <div class="credential-input">
+                    <label for="input-password" class="font-family text-size-xmd">Пароль:</label>
+                    <input id="input-password" data-register-target="password" class="font-family text-size-xmd" value="12345">
+                </div>
+
+                <input type="hidden" name="token" data-register-target="token" value="{{ csrf_token('register') }}">
+
+                <button data-action="click->register#create" class="font-family text-size-xmd">Зарегистрироваться</button>
+            </div>
+
+            <div class="form-error">
+                <p data-register-target="error"></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

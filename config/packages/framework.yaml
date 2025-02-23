@@ -1,5 +1,6 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
+    csrf_protection: ~
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
@@ -7,6 +8,11 @@ framework:
 
     #esi: true
     #fragments: true
+
+#    form:
+#        csrf_protection:
+#            enabled: false #ToDo: Изменить на параметр конфигурации: '%env(CSRF_FORM_ENABLED)%'
+#            field_name: 'token'
 
 when@test:
     framework:

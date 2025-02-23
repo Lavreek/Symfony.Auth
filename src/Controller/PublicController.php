@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/', name: 'app_public')]
 class PublicController extends AbstractController
 {
-
     /**
      * Отправка пользователя на стандартную страницу отображения.
      * @return Response
@@ -25,11 +24,25 @@ class PublicController extends AbstractController
 
     /**
      * Получить форму для авторизации пользователя.
+     * @param string $type Заданный тип авторизации.
      * @return Response
      */
-    #[Route('/auth/form', name: '_auth_form', methods: ['GET'])]
-    public function index(): Response
+    #[Route('/auth/form/{type}', name: '_auth_form', methods: ['GET'])]
+    public function auth(string $type = 'default'): Response
     {
-        return $this->render('public/index.html.twig');
+        return $this->render(sprintf('public/auth/%s.html.twig', $type));
+    }
+
+    /**
+     * Получить форму для регистрации пользователя.
+     * @param string $type Заданный тип регистрации.
+     * @return Response
+     */
+    #[Route('/register/form/{type}', name: '_register_form', methods: ['GET'])]
+    public function register(string $type = 'default'): Response
+    {
+        return $this->render(sprintf('public/register/%s.html.twig', $type), [
+            'registerType' => $type,
+        ]);
     }
 }

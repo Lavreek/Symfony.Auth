@@ -22,7 +22,7 @@ class DefaultRegisterService implements RegisterInterface
     public function register(UserCredentionalCollection $credentials): User
     {
         $user = new User();
-        $user->setEmail($credentials->email);
+        $user->setEmail($credentials->username);
         $user->setPassword($this->getHasher()->hash($credentials->password));
         $user->setRoles($this->getDefaultRoles());
 

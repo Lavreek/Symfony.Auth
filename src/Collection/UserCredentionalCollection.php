@@ -7,11 +7,9 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class UserCredentionalCollection extends VariableReceiveLibrary
 {
-    /** @var string|null Email адресс пользователя */
-    public ?string $email = null;
-
-    /** @var string|null Логин пользователя. */
-    public ?string $login = null;
+    /** @var string Наименование пользователя. */
+    #[NotNull]
+    public string $username;
 
     /** @var string Пароль пользователя. */
     #[NotNull]

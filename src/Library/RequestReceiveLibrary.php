@@ -3,9 +3,9 @@
 namespace App\Library;
 
 use Exception;
-use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validation;
 
@@ -54,6 +54,15 @@ abstract class RequestReceiveLibrary extends VariableReceiveLibrary
     public function getHeaders(): array
     {
         return $this->getRequest()->headers->all();
+    }
+
+    /**
+     * Передача дополнительной мета информации.
+     * @return InputBag
+     */
+    public function getPayload(): InputBag
+    {
+        return $this->getRequest()->getPayload();
     }
 
     /**
