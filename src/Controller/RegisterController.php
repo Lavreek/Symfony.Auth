@@ -33,13 +33,13 @@ class RegisterController extends AbstractController
      * @param RegisterRequest $request Реквест необходимых параметров для регистрации пользователя.
      * @return JsonResponse
      */
-    #[Route('/create', name: 'app_register_create', methods: ['POST'])]
+    #[Route('/create', name: '_create', methods: ['POST'])]
     public function create(RegisterRequest $request): JsonResponse
     {
         $register = $this->registerService->getRegisterType($request->type);
-        $user = $register->register($request->credentionals);
+        $user = $register->register($request->credentials);
 
-        if ($request->credentionals->email !== null && $request->verify) {
+        if ($request->credentials->email !== null && $request->verify) {
             $this->emailVerifier->verifyEmail($user);
         }
 

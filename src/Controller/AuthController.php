@@ -18,7 +18,7 @@ class AuthController extends AbstractController
      * @param LoginRequest $request Реквест необходимых параметров для авторизации пользователя.
      * @return JsonResponse
      */
-    #[Route('/login', name: 'app_auth_login', methods: ['POST'])]
+    #[Route('/login', name: '_login', methods: ['POST'])]
     public function login(LoginRequest $request): JsonResponse
     {
         return new JsonResponse(['success' => true,

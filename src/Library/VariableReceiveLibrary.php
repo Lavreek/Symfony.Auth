@@ -4,9 +4,14 @@ namespace App\Library;
 
 use ReflectionException;
 
+/**
+ * Класс взаимодействия с классом для распределения полученных параметров.
+ */
 abstract class VariableReceiveLibrary extends ReflectionReceiveLibrary
 {
     /**
+     * Инициализация распределения.
+     * @param array ...$arguments Параметры полученные для распределения.
      * @throws ReflectionException
      */
     public function __construct(...$arguments)
@@ -25,6 +30,10 @@ abstract class VariableReceiveLibrary extends ReflectionReceiveLibrary
         }
     }
 
+    /**
+     * Получить свойства класса в виде массива данных.
+     * @return array
+     */
     public function toArray(): array
     {
         $array = [];

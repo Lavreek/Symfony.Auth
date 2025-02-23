@@ -18,7 +18,7 @@ class HealthController extends AbstractController
      * Получить информацию о жизни сервиса.
      * @return JsonResponse
      */
-    #[Route('/info', name: 'app_health_info', methods: ['GET'])]
+    #[Route('/info', name: '_info', methods: ['GET'])]
     public function info(): JsonResponse
     {
         return new JsonResponse([
